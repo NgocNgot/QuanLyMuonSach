@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const ApiError = require("./app/api-error");
 const BookRouter = require("./app/routes/BookRoute");
+const UserRouter = require("./app/routes/UserRoute");
 
 
 
@@ -9,11 +10,12 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-
-app.use("/books", BookRouter);
 app.get("/", (req, res) => {
     res.json({ message: "Welcom to contact book application."});
 });
+
+app.use("/api/users", UserRouter);
+app.use("/api/books", BookRouter);
 
 
 

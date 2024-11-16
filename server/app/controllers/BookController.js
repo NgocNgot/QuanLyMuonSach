@@ -1,8 +1,12 @@
 const BookModel = require("../models/BookModel");
 const BookController = {
     findAll: async (req, res) => {
+        console.log("Received request to fetch all books");
         BookModel.find()
-            .then((data) => res.status(200).json(data))
+            .then((data) => {
+                console.log(data);
+                res.status(200).json(data);
+            })
             .catch((err) => res.status(500).json(err.message))
     },
     findOne: async (req, res) => {

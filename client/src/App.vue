@@ -1,19 +1,38 @@
 <script>
+  import Header from './components/Header.vue'
+  import Footer from './components/Footer.vue';
+  export default {
+    data() {
+      return {
 
-export default {
-  // components: {
-  //   AppHeader,
-  // },
-};
+      }
+    },
+    components: {
+      Header,
+      Footer,
+    }
+  }
 </script>
 
 <template>
-  <h1>Hello</h1>
+  <div class="app-container">
+    <Header/>
+    <RouterView/>
+    <Footer/>
+  </div>
 </template>
 
 <style>
-.page {
-  max-width: 400px;
-  margin: auto;
+.app-container {
+  max-width: 1280px;
+  margin: 0 auto; /* Căn giữa trang */
+  padding: 0;
+  width: 100%; /* Đảm bảo trang bao phủ toàn bộ chiều rộng */
+}
+
+@media (max-width: 768px) {
+  .app-container {
+    padding: 0 10px; /* Điều chỉnh padding cho màn hình nhỏ */
+  }
 }
 </style>
