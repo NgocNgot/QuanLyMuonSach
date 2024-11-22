@@ -5,21 +5,20 @@
   </div>
   <div class="section">
     <div class="section-header">
-      <h2>SÁCH PHỔ BIẾN</h2>
+      <h2>SÁCH TRONG THƯ VIỆN</h2>
       <div class="section-line"></div>
-      <button class="view-all">
-        <RouterLink to="/login" style="color: #ffff; text-decoration: none;">Xem tất cả 
-          <font-awesome-icon :icon="['fas', 'angle-right']" />
-        </RouterLink>
-      </button>
     </div> 
     <div class="book-list" v-if="books && books.length">
       <div class="book-item" v-for="book in books" :key="book._id">
-        <img :src="book.chiTiet.hinhAnh[0]" :alt="book.tenSach">
+        <router-link :to="'/book/' + book._id">
+          <img :src="book.chiTiet.hinhAnh[0]" :alt="book.tenSach">
+        </router-link>
         <div class="book-title text-ellipsis">{{ book.tenSach }}</div>
         <div class="book-actions">
-          <font-awesome-icon :icon="['fas', 'cart-shopping']" class="cart-icon"/>
-          <button class="borrow-button">MƯỢN NGAY</button>
+          <router-link :to="'/book/' + book._id" style="text-decoration: none;">
+            <button class="borrow-button">XEM CHI TIẾT</button>
+          </router-link>
+          
         </div>
         
       </div>
@@ -34,7 +33,7 @@
 <style scoped>
 .container {
   padding: 0;
-  margin: 0 auto; /* Căn giữa container */
+  margin: 0 auto;
   width: 100%;
   font-family: Roboto, sans-serif;
 }
@@ -42,15 +41,15 @@
 .banner {
   display: flex;
   justify-content: center;
-  width: 100%; /* Đảm bảo banner rộng 100% của container */
+  width: 100%;
   padding: 0px;
   margin: 0px;
 }
 
 .banner img {
-  max-width: 100%; /* Đảm bảo ảnh không vượt quá chiều rộng của container */
+  max-width: 100%;
   width: 100%;
-  height: auto; /* Giữ nguyên tỷ lệ ảnh */
+  height: auto;
 }
 h2 {
   color: #225771;
@@ -69,16 +68,6 @@ h2 {
   padding-top: 12px; 
 } 
 
-.view-all { 
-  text-decoration: none; 
-  background: #225771;
-  border-radius: 90px;
-  padding: 12px 24px; 
-  margin: 8px auto;
-} 
-.view-all:hover { 
-  background: #CAEBFA;
-} 
 .section-line { 
   flex-grow: 1; 
   height: 2px; 
@@ -89,11 +78,12 @@ h2 {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
+  
 }
 .book-item {
   width: 23%;
   background-color: #fff;
-  border: 1px solid #225771;
+  
   border-radius: 5px;
   padding: 12px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);

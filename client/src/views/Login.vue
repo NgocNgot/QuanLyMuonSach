@@ -15,9 +15,9 @@
                   <input type="email" id="email" v-model="email" placeholder="Nhập vào email của bạn" required>
                 </div>
               </div>
-			        <div class="row">
+              <div class="row">
                 <div class="col-sm">
-                  <label for="email">Mật khẩu:</label>
+                  <label for="password">Mật khẩu:</label>
                   <input type="password" id="password" v-model="password" placeholder="Nhập vào mật khẩu của bạn" required>
                 </div>
               </div>
@@ -25,16 +25,58 @@
               <button type="submit">Đăng nhập</button>
               <p v-if="errorMessage" class="error" style="color: #FBA3CD;">{{ errorMessage }}</p>
               <div class="bottom">
-                  Bạn chưa có tài khoản? <RouterLink to="/register" style="text-decoration: none; color: #FBA3CD;"> Đăng ký tại đây</RouterLink>
+                Bạn chưa có tài khoản? <RouterLink to="/register" style="text-decoration: none; color: #FBA3CD;"> Đăng ký tại đây</RouterLink>
               </div>
             </div>
           </div>
         </form>
       </div>
-      
     </div>
   </div>
 </template>
+
+<script>
+import UserService from '@/services/UserService';
+import { RouterLink } from 'vue-router';
+
+export default {
+  name: "Login",
+  data() {
+    return {
+      email: "",
+      password: "",
+      errorMessage: null,
+    };
+  },
+  methods: {
+    async checkForm() {
+      try {
+        const response = await UserService.api.post("/login", {
+          email: this.email,
+          password: this.password,
+        });
+
+        if (response.data) {
+          // Lưu thông tin người dùng vào localStorage với đúng định dạng
+          localStorage.setItem("user", JSON.stringify({ data: response.data.user }));
+
+          // Điều hướng đến trang tương ứng
+          if (response.data.redirectTo === "/admins") {
+            this.$router.push("/admins"); // Đối với nhân viên (admin)
+          } else {
+            this.$router.push("/"); // Đối với độc giả
+          }
+        } else {
+          this.errorMessage = "Email hoặc mật khẩu không đúng.";
+        }
+      } catch (error) {
+        console.error("Lỗi khi gửi yêu cầu đăng nhập: ", error);
+        this.errorMessage = "Đã xảy ra lỗi trong quá trình đăng nhập!";
+      }
+    },
+  },
+};
+</script>
 
 <style scoped>
 .login-main {
@@ -126,38 +168,3 @@ button:hover {
 }
 
 </style>
-<script>
-import UserService from '@/services/UserService';
-import { RouterLink } from 'vue-router';
-export default {
-	name: "Login",
-	data() {
-    return {
-      email: "",
-      password: "",
-      errorMessage: null,
-    };
-  },
-  methods: {
-    async checkForm() {
-      try {
-        const response = await UserService.api.post("/login", {
-            email: this.email,
-            password: this.password,
-        });
-          
-        if (response.data) {
-            this.$router.push("/register");
-        } else {
-            this.errorMessage = "Email hoặc mật khẩu không đúng.";
-        }
-      } catch (error) {
-          this.errorMessage = "Đã xảy ra lỗi trong quá trình đăng nhập!";
-          console.error(error);
-      }
-    },
-  },
-
-}
-
-</script>

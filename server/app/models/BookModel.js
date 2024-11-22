@@ -6,15 +6,19 @@ const BookSchema = new mongoose.Schema({
     },
     tenSach: {
         type: String,
+        required: true,
     },
     donGia: {
         type: String,
+        required: true,
     },
     soQuyen: {
         type: String,
+        required: true,
     },
     namXuatBan: {
         type: String,
+        required: true,
     },
     maNXB: {
         type: mongoose.Schema.Types.ObjectId,
@@ -22,12 +26,18 @@ const BookSchema = new mongoose.Schema({
     },
     tacGia: {
         type: String,
+        required: true,
     },
     chiTiet: {
         hinhAnh: [String],
         moTa: {
             type: String,
         }
+    },
+    loaiSach: {
+        type: String,
+        enum: ["Văn học", "Kinh tế", "Tiểu thuyết", "Kỹ năng sống", "Truyện thiếu nhi"],
+        required: true,
     },
 
 });

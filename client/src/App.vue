@@ -1,24 +1,31 @@
 <script>
+  import { computed } from "vue";
+  import { useRoute } from "vue-router"; 
   import Header from './components/Header.vue'
   import Footer from './components/Footer.vue';
   export default {
-    data() {
-      return {
-
-      }
-    },
     components: {
       Header,
       Footer,
-    }
-  }
+    },
+    setup() {
+      const route = useRoute();
+      const showHeader = computed(() => route.meta.showHeader);
+      const showFooter = computed(() => route.meta.showFooter);
+
+      return {
+        showHeader,
+        showFooter,
+      };
+    },
+  };
 </script>
 
 <template>
   <div class="app-container">
-    <Header/>
+    <Header v-if="showHeader"/>
     <RouterView/>
-    <Footer/>
+    <Footer v-if="showFooter"/>
   </div>
 </template>
 

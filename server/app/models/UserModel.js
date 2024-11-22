@@ -1,6 +1,9 @@
 const mongoose = require("mongoose")
 
 const UserSchema = new mongoose.Schema({
+    maDocGia: {
+        type: String,
+    },
     hoLot: {
         type: String,
         required: true,
@@ -15,7 +18,7 @@ const UserSchema = new mongoose.Schema({
     },
     phai: {
         type: String,
-        enum: ["nam", "nữ", "khác"],
+        enum: ["Nam", "Nữ", "Khác"],
         required: true,
     },
     diaChi: {
@@ -38,10 +41,7 @@ const UserSchema = new mongoose.Schema({
         required: true,
         min: 6
     },
-    maDocGia: {
-        type: String,
 
-    },
 
 });
 

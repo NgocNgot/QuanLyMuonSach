@@ -3,8 +3,9 @@ const cors = require("cors");
 const ApiError = require("./app/api-error");
 const BookRouter = require("./app/routes/BookRoute");
 const UserRouter = require("./app/routes/UserRoute");
-
-
+const AdminRoute = require("./app/routes/AdminRoute");
+const NXBRouter = require("./app/routes/NXBRoute");
+const BorrowRoute = require("./app/routes/BorrowRoute");
 
 const app = express();
 
@@ -16,8 +17,9 @@ app.get("/", (req, res) => {
 
 app.use("/api/users", UserRouter);
 app.use("/api/books", BookRouter);
-
-
+app.use("/api/nxbs", NXBRouter);
+app.use("/api/borrows", BorrowRoute);
+app.use("/api/admins", AdminRoute);
 
 app.use((req, res, next) => {
     return next(new ApiError(404, "Resource not found"));

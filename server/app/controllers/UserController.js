@@ -1,3 +1,4 @@
+const AdminModel = require("../models/AdminModel");
 const UserModel = require("../models/UserModel");
 // Hàm tạo mã độc giả ngẫu nhiên 
 function generateRandomId() { 
@@ -29,16 +30,33 @@ const UserController = {
    
     login: (req, res) => {
         const { email, password } = req.body;
-        UserModel.findOne({ email, password })
-        .then(user => {
-            if (!user) {
-                return res.status(400).json({ message: "Email hoặc mật khẩu không đúng." });
+        AdminModel.findOne({ email, password })
+        .then(admin => {
+            if (admin) {
+                return res.status(200).json({
+                    redirectTo: "/admins",
+                        user: admin,
+                });
             }
-            res.status(200).json(user);
+            UserModel.findOne({ email, password })
+            .then(user => {
+                if (user) {
+                    return res.status(200).json({
+                        redirectTo: "/",
+                        user: user,
+                    });
+                }
+
+                return res.status(400).json({ message: "Email hoặc mật khẩu không đúng." });
+            })
+            .catch(err => {
+                res.status(500).json({ message: `Lỗi đăng nhập! ${err}` });
+            });
         })
         .catch(err => {
             res.status(500).json({ message: `Lỗi đăng nhập! ${err}` });
         });
+        
     },
 
 
